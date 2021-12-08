@@ -1,4 +1,4 @@
-package com.demo.RestAssuredTraining;
+package com.demo.test;
 
 import static io.restassured.RestAssured.baseURI;
 

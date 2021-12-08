@@ -1,6 +1,7 @@
-package com.demo.RestAssuredTraining;
+package com.demo.test;
 
 import static io.restassured.RestAssured.*;
+import static com.demo.resources.Payload.*;
 import org.testng.Assert;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -42,7 +43,7 @@ public class PutPatchDelete extends BasicSetUp {
 		req.put("job","EmployeeIn CG");
 
 		System.out.println(req.toJSONString());	
-		//baseURI="https://reqres.in";
+		
 
 		given().
 		header("Content_Type","application/json").

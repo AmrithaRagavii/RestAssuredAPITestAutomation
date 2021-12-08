@@ -1,21 +1,15 @@
-package com.demo.RestAssuredTraining;
+package com.demo.test;
 
 import static org.hamcrest.Matchers.*;
-
-import org.codehaus.groovy.ast.builder.AstStringCompiler;
-import org.testng.annotations.BeforeTest;
-
-
+import static com.demo.utils.Formatter.*;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import static io.restassured.RestAssured.*;
-
+import static com.demo.resources.Payload.*;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import static io.restassured.matcher.RestAssuredMatchers.*;
 
 
 public class FirstDemo extends BasicSetUp{
@@ -27,7 +21,7 @@ public class FirstDemo extends BasicSetUp{
 				.when().get("users")
 				.then().extract().response();
 		Assert.assertEquals(r.getStatusCode(),200);
-		JsonPath jp= new JsonPath(r.asString());
+		JsonPath jp = JsonPathResponse(r);
 
 		Assert.assertEquals(jp.getInt("page"),pageno);
 		Assert.assertEquals(jp.getInt("per_page"),6);
@@ -57,13 +51,13 @@ public class FirstDemo extends BasicSetUp{
 		jo.put("name", "Ragavi");
 		jo.put("job", "Tester");
 
-		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON).body(jo.toJSONString())
+		Response r = given().contentType(ContentType.JSON).accept(ContentType.JSON).body(jo.toJSONString())
 				      .when().post("/users")
 				      .then().extract().response();
 
-		JsonPath jpath = new JsonPath(response.asString());
+		JsonPath jpath = JsonPathResponse(r);
 
-		Assert.assertEquals(response.statusCode(), 201);
+		Assert.assertEquals(r.statusCode(), 201);
 		Assert.assertNotNull(jpath.getInt("id"));
 		Assert.assertEquals(jpath.getString("name"), "Ragavi");
 		Assert.assertEquals(jpath.getString("job"), "Tester");

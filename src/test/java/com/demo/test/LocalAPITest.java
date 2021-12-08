@@ -1,4 +1,4 @@
-package com.demo.RestAssuredTraining;
+package com.demo.test;
 
 import java.util.HashMap;
 import java.util.Map;
