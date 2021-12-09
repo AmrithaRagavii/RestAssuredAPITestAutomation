@@ -7,5 +7,5 @@ target/
 extentconfig.json
 extentconfig.xml
 report/
-index.html/
+index.html
 spark
