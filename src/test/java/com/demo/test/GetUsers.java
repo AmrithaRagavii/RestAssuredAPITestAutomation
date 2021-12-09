@@ -12,11 +12,13 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
 
-public class FirstDemo extends BasicSetUp{
+public class GetUsers extends BasicSetUp{
 	
 	@Test
 	public static void getUsersByPageNo() {
 		int pageno=2;
+		
+		BasicSetUp.createTest("getUsersBy Test", "regression");
 		Response r= given().queryParam("page",pageno)
 				.when().get("users")
 				.then().extract().response();
@@ -44,24 +46,7 @@ public class FirstDemo extends BasicSetUp{
 	}
 
     //postMethod
-	@Test
-	public static void createUser() {
-
-		JSONObject jo = new JSONObject();
-		jo.put("name", "Ragavi");
-		jo.put("job", "Tester");
-
-		Response r = given().contentType(ContentType.JSON).accept(ContentType.JSON).body(jo.toJSONString())
-				      .when().post("/users")
-				      .then().extract().response();
-
-		JsonPath jpath = JsonPathResponse(r);
-
-		Assert.assertEquals(r.statusCode(), 201);
-		Assert.assertNotNull(jpath.getInt("id"));
-		Assert.assertEquals(jpath.getString("name"), "Ragavi");
-		Assert.assertEquals(jpath.getString("job"), "Tester");
-		Assert.assertNotNull(jpath.getString("createdAt"));
-	}
+	
+	
 
 }

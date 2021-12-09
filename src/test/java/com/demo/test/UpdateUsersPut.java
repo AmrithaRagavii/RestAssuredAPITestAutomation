@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import io.restassured.http.ContentType;
 
-public class PutPatchDelete extends BasicSetUp {
+public class UpdateUsersPut extends BasicSetUp {
 
 		
 	@Test(priority = 0)
@@ -22,6 +22,8 @@ public class PutPatchDelete extends BasicSetUp {
 
 		putRequest.put("name", "Amritha");
 		putRequest.put("job", "Baker");
+		
+		BasicSetUp.createTest("Update Test", "regression");
 
 		Response rep = given().contentType(ContentType.JSON).accept(ContentType.JSON).body(putRequest.toJSONString()).
 	               	   when().put("/users/2").
@@ -35,40 +37,9 @@ public class PutPatchDelete extends BasicSetUp {
 		Assert.assertNotNull(jsonPath.getString("updatedAt"));
 
 	}
-	@Test(priority = 1)
-	public void patchID() {
+	
 
-		JSONObject req=new JSONObject();
-		req.put("name","Ragavi");
-		req.put("job","EmployeeIn CG");
-
-		System.out.println(req.toJSONString());	
-		
-
-		given().
-		header("Content_Type","application/json").
-		contentType(ContentType.JSON).
-		accept(ContentType.JSON).
-		body(req.toJSONString()).
-		when().
-		patch("/api/users/2").
-		then().
-		statusCode(200).
-		log().all();
-	}
-
-	@Test(priority = 2)
-	public void deleteID() {
-
-		//baseURI="https://reqres.in/api";
-
-		when().
-		delete("/api/users/2").
-		then().
-		statusCode(204).
-		log().all();
-	}
-
+	
 
 
 

@@ -4,21 +4,24 @@
  
     <test name="Reqres API">
         <classes>
-            <class name="com.demo.test.FirstDemo" />
-            <class name="com.demo.test.PutPatchDelete" />
+            <class name="com.demo.test.GetUsers" />
+            <class name="com.demo.test.CreateUsers" />
+            <class name="com.demo.test.Delete" />
+            <class name="com.demo.test.UpdateUsersPut" />
+            <class name="com.demo.test.UpdateUsersPatch" />
         </classes>
     </test>
  
-    <test name="Local API">
+    <!-- <test name="Local API">
         <classes>
             <class name="com.demo.test.LocalAPITest" />
         </classes>
-    </test>
+    </test> -->
  
-    <test name="Soap XML">
+   <!--  <test name="Soap XML">
         <classes>
             <class name="com.demo.test.SoapXMLValidation" />
         </classes>
-    </test>
+    </test> -->
  
 </suite>
