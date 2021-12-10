@@ -1,11 +1,16 @@
 package com.demo.test;
 
-import java.util.HashMap;
-import java.util.Map;
 import static io.restassured.RestAssured.*;
 import org.json.simple.JSONObject;
+import org.testng.Assert;
 import org.testng.annotations.*;
+import static com.demo.utils.Formatter.jsonPathConverter;
+
+
+
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 
 public class LocalAPITest {
 
@@ -16,70 +21,62 @@ public class LocalAPITest {
 	}
 	@Test(priority = 0)
 	public void getSubjects() {
-		given().get("/Subjects").
-		then().statusCode(200).log().all();
+
+		Response response = given().header("Content-Type","Application.json")
+				.contentType(ContentType.JSON).accept(ContentType.JSON)
+				.when().get("Subjects")
+				.then().extract().response();
+		Assert.assertEquals(response.getStatusCode(), 200);
+		Assert.assertEquals(response.jsonPath().getInt("id[0]"), 7);
+		Assert.assertEquals(response.jsonPath().getString("Topic[0]"), "Java");
 	}
-	@Test(priority = 5)
-	public void getUsers() {
-		given().get("/users").
-		then().statusCode(200).log().all();
-	}
+
 
 	@Test(priority = 1)
 	public void post() {
-		//		Map<String,Object> m=new HashMap<String,Object>();
-		//		m.put("firstName","Amritha");
-		//		m.put("lastName","Preethi");
-		//		m.put("id",33);
-		JSONObject request= new JSONObject();
-		request.put("firstName","Puma");
-		request.put("lastName","Ragu");
 
-		given().contentType(ContentType.JSON).
-		accept(ContentType.JSON).
-		body(request.toJSONString()).
-		post("/users").
-		then().
-		statusCode(201).log().all();
+
+		String firstName ="Puma";
+		String lastName= "Ragu";
+
+		Response response = given().header("Content-Type","Application.json").contentType(ContentType.JSON).accept(ContentType.JSON)
+				.body(request(firstName,lastName))
+				.when().post("users")
+				.then().extract().response();
+		JsonPath jsonPath = jsonPathConverter(response);
+		Assert.assertEquals(response.getStatusCode(), 201);
+		Assert.assertNotNull(response.body());
+		Assert.assertEquals(jsonPath.getString("firstName"), firstName);
+		Assert.assertEquals(jsonPath.getString("lastName"), lastName);
 	}
 
 	@Test(priority = 2)
 	public void put() {
 
 		JSONObject request= new JSONObject();
-		request.put("lastName","Amala");
 
-		given().contentType(ContentType.JSON).
-		accept(ContentType.JSON).
-		body(request.toJSONString()).
-		when().
-		put("/users/2").
-		then().
-		statusCode(200);
+		String firstName ="Amala";
+		String lastName= "Sharma";
+
+		Response response = given().header("Content-Type","Application.json").contentType(ContentType.JSON).accept(ContentType.JSON).
+				body(request(firstName,lastName))
+				.when().put("users/2")
+				.then().extract().response();
+
+		Assert.assertEquals(response.getStatusCode(), 200);
+		JsonPath jsonPath = jsonPathConverter(response);		
+		Assert.assertEquals(jsonPath.getString("firstName"), firstName);
+		Assert.assertEquals(jsonPath.getString("lastName"), lastName);
 	}
 
 
 	@Test(priority = 3)
-	public void patch() {
-
-		JSONObject request= new JSONObject();
-
-		request.put("lastName","Roshan");	
-
-		given().contentType(ContentType.JSON).
-		accept(ContentType.JSON).
-		body(request.toJSONString()).
-		when().
-		patch("/users/1").
-		then().
-		statusCode(200);
-	}
-
-	@Test(priority = 4)
 	public void delete() {
-		when().
-		delete("/users/35").
-		then().
-		statusCode(404);
+
+		Response response = given()
+				.when()
+				.delete("users/35")
+				.then().extract().response();
+		Assert.assertEquals(response.getStatusCode(), 404);
 	}
 }

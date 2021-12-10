@@ -8,9 +8,7 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import org.testng.annotations.Test;
 
 public class JSONSchema {
-	
-	
-	
+
 	@Test
 	public void testExample() {
 
