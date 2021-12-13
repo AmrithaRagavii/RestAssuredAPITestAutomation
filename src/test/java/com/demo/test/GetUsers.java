@@ -7,16 +7,17 @@ import static io.restassured.RestAssured.*;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
-public class GetUsers extends BasicSetUp{
-	@Test
+public class GetUsers extends BaseURL{
+	@Test (priority=0,description ="Get Users List from Page")
 	public static void getUsersByPageNo() {
 		int pageno=2;
 
-		Response r= given().queryParam("page",pageno)
+		Response response= given().queryParam("page",pageno)
 				.when().get("users")
 				.then().extract().response();
-		Assert.assertEquals(r.getStatusCode(),200);
-		JsonPath jp = jsonPathConverter(r);
+		Assert.assertEquals(response.getStatusCode(),200);
+		JsonPath jp = jsonPathConverter(response);
+		addResponseToReport(response.asPrettyString());
 
 		Assert.assertEquals(jp.getInt("page"),pageno);
 		Assert.assertEquals(jp.getInt("per_page"),6);
