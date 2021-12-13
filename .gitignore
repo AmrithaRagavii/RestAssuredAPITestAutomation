@@ -9,3 +9,5 @@ extentconfig.xml
 report/
 index.html
 spark/
+Soapfile/
+src/test/java/com/extentreports
